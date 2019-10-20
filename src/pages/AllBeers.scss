@@ -1,0 +1,26 @@
+.AllBeers {
+    display: flex;
+    flex-direction: column;
+}
+
+.AllBeers a {
+    text-decoration: none;
+    color: #484848
+}
+
+.AllBox {
+    display: flex;
+    flex-direction: row;
+}
+
+.AllBox img {
+    height: 200px;
+}
+
+.BeerDetail img {
+    height: 200px;
+}
+
+.BeerDetail h1, .BeerDetail p {
+    color:#484848;
+}
