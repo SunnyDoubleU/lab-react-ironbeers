@@ -1,0 +1,14 @@
+.NavBar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.NavBar p, .NavBar a {
+    color: #EF6824;
+    font-weight: 800;
+    font-size: 2rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}

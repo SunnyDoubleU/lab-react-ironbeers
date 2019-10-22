@@ -1,28 +1,54 @@
-import React from 'react'
+import React, { Component } from 'react'
 import "./AllBeers.scss"
+import axios from 'axios'
 
+class BeerDetail extends Component {
 
+    state = {
+        beer: {}
+    }
 
-const BeerDetail = (props) => {
+    componentDidMount() {
+        var beerId = this.props.match.params.beerId
 
-    var beerDetail = props.match.params.beerId
-    var filteredBeer = props.beers.filter((beer) => beer._id === beerDetail)[0]
+        axios({
+            url: `https://ih-beers-api.herokuapp.com/beers/${beerId}`,
+            method: "GET"
+        })
+            .then((res) => {
+                var stateStringify = JSON.stringify(this.state);
+                var stateCopy = JSON.parse(stateStringify);
 
-    return (
-        <fragment>
-            {props.beers.length > 0 ?
-                <div className="BeerDetail">
-                    <img src={filteredBeer.image_url} alt="beer" />
-                    <h1>{filteredBeer.name}</h1>
-                    <p>{filteredBeer.tagline}</p>
-                    <p>{filteredBeer.description}</p>
-                    <p>{filteredBeer.contributed_by}</p>
-                </div>
-                :
-                <h1>Loading</h1>
-            }
-        </fragment>
-    )
+                stateCopy.beer = res.data;
+                stateCopy.loading = false;
+                this.setState(stateCopy);
+            })
+            .catch((err) => {
+                var stateStringify = JSON.stringify(this.state);
+                var stateCopy = JSON.parse(stateStringify);
+
+                stateCopy.err = err.message;
+                this.setState(stateCopy);
+            })
+
+    }
+
+    render() {
+        return (
+            <fragment>
+                {this.state.loading ?
+                    <h1>Loading</h1> :
+                    <div className="BeerDetail">
+                        <img src={this.state.beer.image_url} alt="beer" />
+                        <h1>{this.state.beer.name}</h1>
+                        <p>{this.state.beer.tagline}</p>
+                        <p>{this.state.beer.description}</p>
+                        <p>{this.state.beer.contributed_by}</p>
+                    </div>
+                }
+            </fragment>
+        )
+    }
 }
 
 
